@@ -5,6 +5,9 @@ var camera
 var lastMousePos
 var currentMousePos = Vector2(0, 0)
 
+var destinationRotation = Vector2(0, 0)
+var currentRotation = Vector2(0, 0)
+
 func _ready():
 	camera = get_node("camera")
 	set_process_input(true)
@@ -15,8 +18,11 @@ func _input(event):
 		currentMousePos = event.pos
 		var diffMousePos = currentMousePos - lastMousePos
 		
-		set_rotation(Vector3(0, get_rotation().y + diffMousePos.x/500, 0))
-		camera.set_rotation(Vector3(camera.get_rotation().x + diffMousePos.y/500, 0, 0))
+		destinationRotation -= diffMousePos/500
+		currentRotation += (destinationRotation - currentRotation)/5
+		
+		set_rotation(Vector3(0, currentRotation.x, 0))
+		camera.set_rotation(Vector3(currentRotation.y, 0, 0))
 	elif event.is_action_released("ui_cancel"):
 		get_tree().quit()
 	
