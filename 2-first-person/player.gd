@@ -22,7 +22,6 @@ func _ready():
 func _process(delta):
 	var diffRotation = (destinationRotation - currentRotation)*15*delta
 	currentRotation += diffRotation
-	#rotate_y(-diffRotation.x)
 	set_rotation(Vector3(0, currentRotation.x, 0))
 	camera.set_rotation(Vector3(currentRotation.y, 0, 0))
 	
@@ -54,10 +53,9 @@ func _fixed_process(delta):
 	velocity.x = transX*SPEED
 	velocity.z = transZ*SPEED
 	velocity.y += GRAVITY*delta
-	print(get_rotation())
+	
 	var motion = velocity.rotated(Vector3(0, -1, 0), get_rotation().y)*delta
 	motion = move(motion)
-	
 	
 	var attempts = 4
 	
@@ -69,6 +67,7 @@ func _fixed_process(delta):
 		
 		if motion.length() < 0.001:
 			break
+			
 		attempts -= 1
 	
 func _enter_tree():
